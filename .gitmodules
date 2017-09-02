@@ -1,0 +1,6 @@
+[submodule "ZipStream-PHP"]
+	path = ZipStream
+	url = https://github.com/maennchen/ZipStream-PHP
+[submodule "lodepng"]
+	path = previewgen/lodepng
+	url = https://github.com/lvandeve/lodepng
