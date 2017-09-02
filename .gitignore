@@ -1,0 +1,6 @@
+*.exe
+*.db
+ZipStream
+zoom
+previewgen/lodepng.*
+up.php
