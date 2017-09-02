@@ -45,8 +45,8 @@ void map_vxl_setcolor(int x, int y, int z, int color) {
 	z = 63-z;
 	x = 511-x;
 	int px = -x+y+512;
-    int py = (x+y)/2-z+64;
-    plot(px,py,color);
+	int py = (x+y)/2-z+64;
+	plot(px,py,color);
 	plot(px,py-1,color);
 	plot(px,py+1,color);
 	plot(px+1,py,color);
