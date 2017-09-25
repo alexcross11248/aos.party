@@ -39,6 +39,11 @@
 	<head>
 		<title><?php echo $data["name"]." - aos.party!";?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta property="og:site_name" content="aos.party!">
+		<meta property="og:url" content="https://aos.party/">
+		<meta property="og:title" content="Map: <?php echo $data["name"];?>">
+		<meta property="og:image" content="https://aos.party/<?php echo $data["preview"]; ?>">
+		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
@@ -92,7 +97,7 @@
 						<br />
 						<br />
 						<br />
-						<?php if(!$data["textverified"]) { echo '<a class="btn" href="">Edit</a>'; } ?>
+						<?php if(!$data["textverified"]) { echo '<a class="btn" href="edit.php?id='.$mapid.'">Edit</a>'; } ?>
 						<a class="btn" href="">Report an error</a>
 					</td>
 				</tr>

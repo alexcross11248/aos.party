@@ -4,6 +4,11 @@
 		<title>aos.party! - The Ace of Spades map repository</title>
 		<meta name="description" content="More than 1000+ maps for download, as .zip or directly as a .vxl file. We also collect information about maps, such as author, desc, ..." />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta property="og:site_name" content="aos.party!">
+		<meta property="og:url" content="https://aos.party/">
+		<meta property="og:title" content="Search for Ace of Spades maps quickly">
+		<meta property="og:image" content="https://aos.party/aosparty_small.png">
+		<link rel="shortcut icon" href="/favicon.ico">
 		<link href="index.css" rel="stylesheet">
 		<script type="text/javascript">
 			var callAjax = function(url, callback, container, container2) {
@@ -16,7 +21,7 @@
 				}
 				xmlhttp.open("GET", url, true);
 				xmlhttp.send();
-			}
+			};
 			
 			var last_search = 0;
 			var onSearch = function() {
@@ -25,6 +30,7 @@
 			
 			var author = function(author) {
 				document.getElementById("search").value = "author:"+author;
+				s(1);
 			};
 			
 			var getTextWidth = function(text, font) {
@@ -32,7 +38,7 @@
 				var context = canvas.getContext("2d");
 				context.font = font;
 				return context.measureText(text).width;
-			}
+			};
 				
 			var query = function(response,container,container2) {
 				var j = JSON.parse(response);
@@ -42,7 +48,7 @@
 					} else {
 						var pages = "Page ";
 						for(var k=0;k<j.total/24;k++) {
-							pages += '<a href="#">'+(k+1)+'</a> ';
+							pages += '<a href="javascript:s('+(k+1)+')">'+(k+1)+'</a> ';
 						}
 						document.getElementById(container2).innerHTML = '<p><span class="headersmall">Results: '+j.total+', Shown: '+j.entries.length+'</span></p><p><span class="headersmall">'+pages+'</span></p>';
 					}
@@ -66,7 +72,7 @@
 					}
 					html += '<td><a href="view.php?id='+entry["id"]+'"><img src="'+entry["preview"]+'" border="0" /></a><br />';
 					html += '<span class="list_mapname"><a href="view.php?id='+entry["id"]+'">'+n+'</a></span><br />';
-					html += '<span class="list_mapcreator">by <a href="#">'+a+'</a></span></td>';
+					html += '<span class="list_mapcreator">by <a href="javascript:author(\''+a+'\')">'+a+'</a></span></td>';
 					cnt++;
 					if((cnt%6)==0) {
 						html += '</tr><tr><td colspan="6" height="10px"><hr width="100%"></td></tr><tr>';
@@ -78,19 +84,23 @@
 			
 			var search = function() {
 				if(Date.now()-last_search>450) {
-					callAjax("search.php?term="+document.getElementById("search").value,query,"results","resultsamount");
+					callAjax("search.php?q="+document.getElementById("search").value,query,"results","resultsamount");
 					last_search = Date.now();
 				}
-			}
+			};
+			
+			var s = function(page) {
+				callAjax("search.php?q="+document.getElementById("search").value+"&page="+page,query,"results","resultsamount");
+			};
 			
 			var load = function() {
 				var e = document.getElementById("search");
 				e.oninput = onSearch;
 				e.onpropertychange = e.oninput;
 				
-				callAjax("search.php?mapsofweek=1&term=a",query,"mapsofweek",0);
-				callAjax("search.php?lastadded=1&term=a",query,"lastmaps",0);
-			}
+				callAjax("search.php?mapsofweek=1&q=a",query,"mapsofweek",0);
+				callAjax("search.php?lastadded=1&q=a",query,"lastmaps",0);
+			};
 		</script>
 	</head>
 	<body onload="load()" bgcolor="white">

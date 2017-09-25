@@ -3,18 +3,23 @@
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
+	
+	$page = 0;
+	if(isset($_GET["page"]) && is_numeric($_GET["page"])) {
+		$page = max(intval($_GET["page"])-1,0);
+	}
 
-	if(!isset($_GET["term"])) {
+	if(!isset($_GET["q"])) {
 		echo "[]";
 		exit;
 	} else {
-		if($_GET["term"]=="") {
+		if($_GET["q"]=="") {
 			echo "[]";
 			exit;
 		}
 	}
 	
-	$term = trim($_GET["term"]);
+	$term = trim($_GET["q"]);
 	
 	if(preg_match("/(author:\s*(\w+))/",$term,$match)) {
 		$map_name = trim(str_replace($match[1],"",$term));
@@ -23,11 +28,11 @@
 	
 	$db = new SQLite3("/home/maps.db");
 	if(!isset($author) || $author=="") {
-		$stmt = $db->prepare("select * from data where name like :a order by name;");
+		$stmt = $db->prepare("select * from data where name like :a order by name,version;");
 		$stmt->bindValue(':a','%'.$term.'%',SQLITE3_TEXT);
 		$results = $stmt->execute();
 	} else {
-		$stmt = $db->prepare("select * from data where name like :a and author like :b order by name,author;");
+		$stmt = $db->prepare("select * from data where name like :a and author like :b order by name,author,version;");
 		$stmt->bindValue(':a','%'.$map_name.'%',SQLITE3_TEXT);
 		$stmt->bindValue(':b','%'.$author.'%',SQLITE3_TEXT);
 		$results = $stmt->execute();
@@ -45,7 +50,7 @@
 	
 	$cnt = 0;
 	while(($data = $results->fetchArray(SQLITE3_ASSOC))) {
-		if($cnt<24) {
+		if($cnt>=$page*24 && $cnt<($page+1)*24) {
 			unset($data["desc"]);
 			unset($data["misc"]);
 			unset($data["size"]);
