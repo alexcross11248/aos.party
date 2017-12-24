@@ -19,13 +19,13 @@
 	
 	$txt_gen = "name = '".$data["name"]."'\r\n";
 	if($data["author"]!="unknown") {
-		$txt_gen += "author = '".$data["author"]."'\r\n";
+		$txt_gen .= "author = '".$data["author"]."'\r\n";
 	}
 	if($data["desc"]!="unknown") {
-		$txt_gen += "description = '".$data["desc"]."'\r\n";
+		$txt_gen .= "description = '".$data["desc"]."'\r\n";
 	}
 	if($data["version"]!="unknown") {
-		$txt_gen += "version = '".$data["version"]."'\r\n";
+		$txt_gen .= "version = '".$data["version"]."'\r\n";
 	}
 	
 	if(isset($_GET["vxl"])) {
